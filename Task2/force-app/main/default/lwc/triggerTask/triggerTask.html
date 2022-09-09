@@ -1,0 +1,92 @@
+<template> 
+    <lightning-card style="text-align: right;font-size: 13px; "> 
+        <lightning-button variant="success" label="ADD" title="Add Account In Table" onclick={openModal}></lightning-button>
+        <lightning-button variant="destructive" label="DELETE" title="Delete Account In Table" onclick={openModalDelete} ></lightning-button>
+        <lightning-button variant="brand-outline  " label="UPDATE" title="Update Account In Table" onclick={openModalUpdate}></lightning-button>
+        <lightning-button variant="brand" label="REFRESH" title="Refresh Account In Table" onclick={handleRefresh} ></lightning-button>
+    </lightning-card>
+    <template if:true={accountList} > 
+        <lightning-datatable data={accountList} columns={columns} key-field="Id" onrowselection={selectedRow}>
+        </lightning-datatable>
+    </template>
+    <!--Modal For Add--> 
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"  alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Add Account</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                    <div class="slds-grid">
+                                        <div>
+                                            <lightning-input type="text"  label="Account Name" value={Name} onchange={handlerName} required></lightning-input>
+                                            <lightning-input type="number"  value={AnnualRevenue} onchange={handleAnnualRevenue} label="Annual Revenue" ></lightning-input>
+                                            <lightning-input type="text"  value={Phone} onchange={handlePhone} label="Phone" ></lightning-input>
+                                        </div>
+                                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={handleForSave} title="Save">Save</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+<!--Modal For Delete-->
+    <template if:true={isModalOpenDelete}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalDelete}>
+                        <lightning-icon icon-name="utility:close"  alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Delete Account</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <lightning-input type="text"  label="Account Name" value={Name} onchange={handlerName} required></lightning-input>                
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModalDelete} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={handleForDelete} title="Delete">Delete</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+    <!--Modal For Update-->
+    <template if:true={isModalOpenUpdate}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalUpdate}>
+                        <lightning-icon icon-name="utility:close"  alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Update Account</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+            <lightning-record-edit-form record-id={recordId} object-api-name="Account" onsubmit={handleForUpdate}>
+                <lightning-messages>
+                </lightning-messages>
+                <lightning-output-field field-name="Name"></lightning-output-field>
+                <lightning-input-field field-name="AnnualRevenue"></lightning-input-field>
+                <lightning-input-field field-name="Phone"></lightning-input-field>
+                <lightning-button class="slds-m-top_small" variant="brand" type="submit" name="update" label="Update" ></lightning-button>
+            </lightning-record-edit-form>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+ </template>
